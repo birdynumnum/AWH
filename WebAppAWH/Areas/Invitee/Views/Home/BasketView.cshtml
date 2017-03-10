@@ -1,0 +1,62 @@
+﻿@model WebAppAWH.ViewModels.PresentBasketVM
+@using WebAppAWH.ViewModels;
+@using Domain;
+
+
+<div class="row">
+    <div class="col-md-12">
+        <table class="table table-responsive table-bordered table-striped table-condensed table-hover">
+            <tr>
+                <th>
+                    Name
+                </th>
+                <th>
+                    Price
+                </th>
+                <th>
+                    Quantity
+                </th>
+                <th>
+                </th>
+            </tr>
+            @foreach (var p in Model.PresentBasket.BasketItems)
+            {
+                <tr>
+                    <td>
+                        @p.Present.Name
+                    </td>
+                    <td>
+                        @p.Present.Price
+                    </td>
+                    <td>
+                        @p.Present.Quantity
+                    </td>
+                    <td>
+                        @Html.ActionLink("Remove", "RemoveFromBasket", "Home", new { id = p.Present.Id }, new { @class = "btn btn-danger" })
+                    </td>
+                </tr>
+            }
+        </table>
+
+        <div class="row">
+            <div class="col">
+                @{
+                    var sum = Model.PresentBasket.ComputeTotalPresentValue();
+                }
+                <div class="row">
+                    <div class="col-md-4 pull-right">
+                        <p>Total: @sum</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        @Html.ActionLink("Back to List", "Index", "Home", null, new { @class = "btn btn-normal" })
+        @Html.ActionLink(" I am Done", "CheckOut", "Home", null, new { @class = "btn btn-info" })
+    </div>
+</div>
+
+

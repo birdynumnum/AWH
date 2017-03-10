@@ -1,0 +1,81 @@
+﻿@model WebAppAWH.ViewModels.PresentVM
+
+<h2>Present Details</h2>
+
+<div class="container">
+    <form class="form-horizontal" role="form">
+        <div class="row">
+            <div class="form-group">
+                <label class="col-lg-3 control-label">Name:</label>
+                <div class="col-lg-8">
+                    <input class="form-control" value=@Model.Name type="text">
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group">
+                <label class="col-lg-3 control-label">Description:</label>
+                <div class="col-lg-8">
+                    <input class="form-control" value=@Model.Description type="text">
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group">
+                <label class="col-lg-3 control-label">Brand:</label>
+                <div class="col-lg-8">
+                    <input class="form-control" value=@Model.Brand type="text">
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group">
+                <label class="col-lg-3 control-label">Price:</label>
+                <div class="col-lg-8">
+                    <input class="form-control" value=@Model.Price type="text">
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group">
+                <label class="col-lg-3 control-label">Where can I find it:</label>
+                <div class="col-lg-4">
+                    <div class="input-group">
+                        <input class="form-control" value=@Model.URL type="text">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" id="wheretofind" type="button">Go There!</button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-4">
+                <a href="@Url.Action("AddToBasket", "Home", new { id = Model.Id })" class="btn btn-primary pull-right">
+                    Add to basket
+                    <span class="glyphicon glyphicon-briefcase" />
+                </a>
+            </div>
+            <div class="col-lg-4">
+                <a href="@Url.Action("Index", "Home" , new { id=Model.Id })" class="btn btn-info">
+                    Back to Browsing
+                    <span class="glyphicon glyphicon-cog" />
+                </a>
+            </div>
+        </div>
+    </form>
+
+    @section scripts{
+        <script>
+            $(document).ready(function () {
+                $("#wheretofind").on("click", function () {
+                    window.open("@Model.URL");
+                });
+            });
+        </script>
+    }

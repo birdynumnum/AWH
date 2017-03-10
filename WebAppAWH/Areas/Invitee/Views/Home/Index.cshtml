@@ -1,0 +1,116 @@
+﻿@model WebAppAWH.ViewModels.InviteePresentVM
+@using Domain;
+
+@using (Html.BeginForm())
+{
+    @Html.HiddenFor(model => model.EventCommand)
+    @Html.HiddenFor(model => model.EventArgument)
+    @Html.HiddenFor(model => model.LastSortExpression)
+    @Html.HiddenFor(model => model.SortExpression)
+    @Html.HiddenFor(model => model.SortDirection)
+    @Html.HiddenFor(model => model.SortDirectionNew)
+
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table table-responsive table-bordered table-striped table-condensed table-hover">
+                <thead>
+                    <tr>
+                        <th>
+                            <a href="#"
+                               data-awh-action="sort"
+                               data-awh-val="Name"
+                               data-awh-direction="Ascending">
+                                Present Name
+                            </a>
+                        </th>
+                        <th>
+                            Url
+                        </th>
+                        <th>
+                            <a href="#"
+                               data-awh-action="sort"
+                               data-awh-val="Brand"
+                               data-awh-direction="Ascending">
+                                Brand
+                            </a>
+                        </th>
+                        <th>
+                            <a href="#"
+                               data-awh-action="sort"
+                               data-awh-val="Price"
+                               data-awh-direction="Ascending">
+                                Price
+                            </a>
+                        </th>
+                        <th>
+                            Select
+                        </th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach (Present item in Model.Presents)
+                    {
+                        <tr>
+                            <td>
+                                @item.Name
+                            </td>
+                            <td>
+                                @item.URL
+                            </td>
+                            <td>
+                                @item.Brand
+                            </td>
+                            <td>
+                                @item.Price.ToString("c")
+                            </td>
+                            <td>
+                                <div class="btn btn-default" id="@item.Id"
+                                     input type="button"
+                                     name="selectbtn"
+                                     data-awh-btnselected="@item.Id">
+                                    @Html.ActionLink("Browse", "Details", new { id = @item.Id })
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        @if (Model.IsPagerVisible)
+        {
+            <ul class="pagination pagination-sm">
+                @foreach (Domain.Paging.PagerItem pageritem in Model.Pages)
+                {
+                    <li class="@pageritem.CssClass">
+                        <a href="#"
+                           data-awh-action="page"
+                           data-awh-val="@pageritem.Argument"
+                           title="@pageritem.Tooltip">
+                            @Html.Raw(pageritem.Text)
+                        </a>
+                    </li>
+                }
+            </ul>
+        }
+    </div>
+}
+
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $("[data-awh-action]").on("click", function (event) {
+                event.preventDefault();
+                $("#EventCommand").val($(this).data("awh-action"));
+                $("#EventArgument").val($(this).data("awh-val"));
+                $("#LastSortExpression").val($("#SortExpression").val());
+                $("#SortExpression").val($(this).data("awh-val"));
+                $("#SortDirectionNew").val($(this).data("awh-direction"));
+                $("form").submit();
+            });
+
+        });
+    </script>
+}
+
